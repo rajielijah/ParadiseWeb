@@ -34,7 +34,7 @@ class Item(models.Model):
     category = models.CharField(max_length=2, choices=CATERGORY)
     descrption = models.TextField()
     image = models.ImageField(upload_to='', null=True, blank=True)
-    quantity = models.IntegerField(default=5)
+    quantity = models.IntegerField(default=5, null=True, blank=True)
     slug = models.SlugField()
     discount_price = models.FloatField(blank=True, null=True)
 
@@ -46,7 +46,7 @@ class Item(models.Model):
 
 
 class OrderItem(models.Model):
-    user = models.ForeignKey(settings.AUTH_MODEL_USER,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
@@ -64,24 +64,18 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     status = models.CharField(choices=ORDER_STATUS_CHOICES, max_length=50)
-    billing_address = models.ForeignKey(
-        UserAddress, related_name='billing_address', null=True)
-	shipping_address = models.ForeignKey(
-	    UserAddress, related_name='shipping_address', null=True)
     delivered = models.BooleanField(default=False)
     recieved = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class UserAddress(models.Model):
-	user = models.ForeignKey()settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
 	types=models.CharField(max_length = 120, choices = ADDRESS_TYPE)
 	street=models.CharField(max_length = 120)
 	city=models.CharField(max_length = 120)
 	state=models.CharField(max_length = 120)
 	zipcode=models.CharField(max_length = 120)
 
-    def __str__(self):
-        return self.street
