@@ -79,3 +79,18 @@ class UserAddress(models.Model):
 	state=models.CharField(max_length = 120)
 	zipcode=models.CharField(max_length = 120)
 
+
+class Group(models.Model):
+    name = models.CharField(max_length=150)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Prize(models.Model):
+    title = models.CharField(max_length=150)
+    image = models.ImageField(upload_to='', null=True, blank=True)
+    
+
+    def __str__(self):
+        return self.title
