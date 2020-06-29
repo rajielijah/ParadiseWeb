@@ -32,7 +32,7 @@ class Item(models.Model):
     title = models.CharField(max_length=150)
     price = models.FloatField()
     category = models.CharField(max_length=2, choices=CATERGORY)
-    descrption = models.TextField()
+    description = models.TextField()
     image = models.ImageField(upload_to='', null=True, blank=True)
     quantity = models.IntegerField(default=5, null=True, blank=True)
     slug = models.SlugField()
@@ -53,7 +53,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.item.title
+        return f"{self.quantity} of {self.item.title}"
 
 
 class Order(models.Model):
@@ -90,7 +90,9 @@ class Group(models.Model):
 class Prize(models.Model):
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to='', null=True, blank=True)
+    sold_out = models.BooleanField(default=False)
     
 
     def __str__(self):
         return self.title
+
